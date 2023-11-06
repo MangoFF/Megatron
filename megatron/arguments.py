@@ -50,8 +50,13 @@ def parse_args(extra_args_provider=None, ignore_unknown_args=False):
         args = parser.parse_args()
 
     # Args from environment
-    args.rank = int(os.getenv('RANK', '0'))
-    args.world_size = int(os.getenv("WORLD_SIZE", '1'))
+    if 'OMPI_COMM_WORLD_LOCAL_RANK' in os.environ:
+        args.local_rank = int(os.environ['OMPI_COMM_WORLD_LOCAL_RANK'])
+        args.world_size = int(os.environ['OMPI_COMM_WORLD_SIZE'])
+        args.rank = int(os.environ['OMPI_COMM_WORLD_RANK'])
+    else:
+        args.rank = int(os.getenv('RANK', '0'))
+        args.world_size = int(os.getenv("WORLD_SIZE", '1'))
 
     return args
 

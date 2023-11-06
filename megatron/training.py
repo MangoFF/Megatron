@@ -629,6 +629,20 @@ def training_log(loss_dict, total_loss_dict, learning_rate, iteration,
     if iteration % args.log_interval == 0:
         elapsed_time = timers('interval-time').elapsed(barrier=True)
         elapsed_time_per_iteration = elapsed_time / total_iterations
+
+        seq_len = args.seq_length
+        hidden_size = args.hidden_size
+        num_layers = args.num_layers
+        vocab_size = args.padded_vocab_size
+
+        # Compute throughput.
+        samples_per_sec = batch_size / elapsed_time_per_iteration
+        checkpoint_activations_factor = 4 if args.recompute_granularity == 'full' else 3
+        flops_per_iteration = (24 * checkpoint_activations_factor * batch_size * seq_len * num_layers * (hidden_size**2)) * (1. + (seq_len / (6. * hidden_size)) + (vocab_size / (16. * num_layers * hidden_size)))
+        model_flops_per_iteration = flops_per_iteration / checkpoint_activations_factor * 3
+        tflops = flops_per_iteration / (elapsed_time_per_iteration * args.world_size * (10**12))
+        model_tflops = model_flops_per_iteration / (elapsed_time_per_iteration * args.world_size * (10**12))
+
         if writer:
             if args.log_timers_to_tensorboard:
                 writer.add_scalar('iteration-time',
@@ -660,6 +674,9 @@ def training_log(loss_dict, total_loss_dict, learning_rate, iteration,
             total_loss_dict[skipped_iters_key])
         log_string += ' number of nan iterations: {:3d} |'.format(
             total_loss_dict[nan_iters_key])
+        log_string += ' samples per second: {:.3f} |'.format(samples_per_sec)
+        log_string += ' TFLOPs (Hardware): {:.2f} |'.format(tflops)
+        log_string += ' TFLOPs (Model): {:.2f} |'.format(model_tflops)
         total_loss_dict[advanced_iters_key] = 0
         total_loss_dict[skipped_iters_key] = 0
         total_loss_dict[nan_iters_key] = 0
