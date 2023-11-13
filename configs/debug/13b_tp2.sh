@@ -1,15 +1,15 @@
 #!/bin/bash
 
-VOCAB_FILE=./data/gpt2-vocab.json
-MERGE_FILE=./data/gpt2-merges.txt
-DATA_PATH=./data/CodeData-gpt2_text_document
+VOCAB_FILE=/workspace/mango/Megatron/data/gpt2-vocab.json
+MERGE_FILE=/workspace/mango/Megatron//data/gpt2-merges.txt
+DATA_PATH=/workspace/mango/Megatron//data/CodeData-gpt2_text_document
 
 EXP_NAME="13b"
 
 MICRO_BATCH_SIZE=2
 GLOBAL_BATCH_SIZE=1280
 
-TP_SIZE=2
+TP_SIZE=4
 PP_SIZE=1
 
 NHIDDEN=5120
@@ -54,8 +54,8 @@ MODEL_ARGS="
     --max-position-embeddings $SEQ_LEN \
     --disable-bias-linear \
     --use-flash-attn \
-    --transformer-impl transformer_engine \
 "
+#    --transformer-impl transformer_engine \
 #    --fp8-hybrid \
 #    --swiglu \
 #    --no-position-embedding \
