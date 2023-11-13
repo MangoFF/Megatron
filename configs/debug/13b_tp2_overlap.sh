@@ -73,6 +73,7 @@ TRAINING_ARGS="
     --recompute-activations \
     --recompute-granularity selective \
     --no-gradient-accumulation-fusion \
+    --tp-comm-overlap \
 "
 
 DATA_ARGS="
