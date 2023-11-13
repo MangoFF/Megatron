@@ -6,7 +6,7 @@ DATA_PATH=/workspace/mango/Megatron/data/CodeData-gpt2_text_document
 
 EXP_NAME="13b"
 
-MICRO_BATCH_SIZE=4
+MICRO_BATCH_SIZE=2
 GLOBAL_BATCH_SIZE=64
 
 TP_SIZE=8
