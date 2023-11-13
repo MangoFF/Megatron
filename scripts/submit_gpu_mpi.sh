@@ -1,6 +1,6 @@
 #! /bin/bash
 
-NUM_WORKERS=8
+NUM_WORKERS=2
 NUM_GPUS_PER_WORKER=8
 HOST_FILE_PATH="../hostfile"
 
@@ -9,10 +9,10 @@ TIMESTAMP=$(date +'%Y.%m.%d-%H:%M:%S')
 source $1
 mkdir -p logs/${EXP_NAME}
 
-mpi_cmd="mpirun -np $(($NUM_WORKERS*$NUM_GPUS_PER_WORKER)) \
+mpi_cmd="/usr/local/openmpi/bin/mpirun -np $(($NUM_WORKERS*$NUM_GPUS_PER_WORKER)) \
         --hostfile ${HOST_FILE_PATH} \
         --allow-run-as-root -bind-to none -map-by slot \
-        -x MASTER_ADDR=node1 \
+        -x MASTER_ADDR=node33 \
         -x MASTER_PORT=$(shuf -i 2000-65000 -n 1) \
         -x GLOO_SOCKET_IFNAME=enp86s0f0 \
         -x CUDA_DEVICE_MAX_CONNECTIONS=1 \

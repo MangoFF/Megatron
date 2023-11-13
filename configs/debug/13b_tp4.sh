@@ -1,8 +1,8 @@
 #!/bin/bash
 
-VOCAB_FILE=/workspace/mango/Megatron/data/gpt2-vocab.json
-MERGE_FILE=/workspace/mango/Megatron/data/gpt2-merges.txt
-DATA_PATH=/workspace/mango/Megatron/data/CodeData-gpt2_text_document
+VOCAB_FILE=/workspace/mango/megatron-lm/data/gpt2-vocab.json
+MERGE_FILE=/workspace/mango/megatron-lm/data/gpt2-merges.txt
+DATA_PATH=/workspace/mango/megatron-lm/data/CodeData-gpt2_text_document
 
 EXP_NAME="13b"
 
