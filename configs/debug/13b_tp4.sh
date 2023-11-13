@@ -57,6 +57,7 @@ MODEL_ARGS="
 "
 #    --transformer-impl transformer_engine \
 #    --fp8-hybrid \
+#    --msamp  \
 #    --swiglu \
 #    --no-position-embedding \
 #    --use-rotary-position-embeddings \
