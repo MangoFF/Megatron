@@ -72,6 +72,7 @@ TRAINING_ARGS="
     --use-distributed-optimizer \
     --sequence-parallel \
     --recompute-granularity selective \
+    --recompute-activations \
     --no-gradient-accumulation-fusion \
 "
 

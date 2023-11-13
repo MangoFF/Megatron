@@ -70,6 +70,7 @@ TRAINING_ARGS="
     --pipeline-model-parallel-size $PP_SIZE \
     --use-distributed-optimizer \
     --sequence-parallel \
+    --recompute-activations \
     --recompute-granularity selective \
     --no-gradient-accumulation-fusion \
 "
