@@ -7,7 +7,7 @@ DATA_PATH=/workspace/mango/Megatron/data/CodeData-gpt2_text_document
 EXP_NAME="13b"
 
 MICRO_BATCH_SIZE=2
-GLOBAL_BATCH_SIZE=64
+GLOBAL_BATCH_SIZE=32
 
 TP_SIZE=8
 PP_SIZE=1
@@ -71,8 +71,9 @@ TRAINING_ARGS="
     --pipeline-model-parallel-size $PP_SIZE \
     --use-distributed-optimizer \
     --sequence-parallel \
-    --recompute-granularity selective \
     --recompute-activations \
+    --recompute-method uniform \
+    --recompute-granularity selective \
     --no-gradient-accumulation-fusion \
 "
 
