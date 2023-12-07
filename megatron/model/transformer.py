@@ -1486,6 +1486,9 @@ class ParallelTransformer(MegatronModule):
                     extra_transformer_engine_kwargs["activation"] = "swiglu" if args.swiglu else "gelu"
                 if self.transformer_engine_v_0_11:
                     extra_transformer_engine_kwargs["normalization"] = args.normalization
+                    
+                extra_transformer_engine_kwargs["ub_tp_comm_overlap"] = args.tp_comm_overlap
+                
                 return transformer_engine.pytorch.TransformerLayer(
                     config.hidden_size,
                     config.ffn_hidden_size,
@@ -1501,8 +1504,8 @@ class ParallelTransformer(MegatronModule):
                     tp_group=mpu.get_tensor_model_parallel_group(),
                     get_rng_state_tracker=tensor_parallel.get_cuda_rng_tracker,
                     fuse_wgrad_accumulation=config.gradient_accumulation_fusion,
-                    apply_query_key_layer_scaling=config.apply_query_key_layer_scaling,
-                    attention_softmax_in_fp32=config.attention_softmax_in_fp32,
+                    # apply_query_key_layer_scaling=config.apply_query_key_layer_scaling,
+                    # attention_softmax_in_fp32=config.attention_softmax_in_fp32,
                     seq_length=args.seq_length,
                     micro_batch_size=args.micro_batch_size,
                     sequence_parallel=config.sequence_parallel,
@@ -1785,9 +1788,9 @@ class ParallelTransformer(MegatronModule):
         """Customize load."""
 
         # Handle renaming layernorm -> norm in component names
-        state_dict_ = {}
-        for key in state_dict.keys():
-            newkey = key.replace("layernorm", "norm")
-            state_dict_[newkey] = state_dict[key]
+        # state_dict_ = {}
+        # for key in state_dict.keys():
+        #     newkey = key.replace("layernorm", "norm")
+        #     state_dict_[newkey] = state_dict[key]
 
-        super().load_state_dict(state_dict_, strict)
+        super().load_state_dict(state_dict, strict)
