@@ -18,7 +18,7 @@ WORLD_SIZE=$(($GPUS_PER_NODE*$NNODES))
 
 EXP_NAME="13b"
 
-MICRO_BATCH_SIZE=1
+MICRO_BATCH_SIZE=4
 GLOBAL_BATCH_SIZE=32
 
 TP_SIZE=4
@@ -26,7 +26,7 @@ PP_SIZE=1
 
 NHIDDEN=8192
 FFN_HIDDEN=22016
-NLAYERS=10
+NLAYERS=5
 NHEADS=64
 SEQ_LEN=2048
 
@@ -102,10 +102,10 @@ DATA_ARGS="
 
 OUTPUT_ARGS="
     --log-throughput \
-    --log-interval 1 \
+    --log-interval 5 \
     --eval-interval 1000 \
-    --eval-iters 10 \
-    --save-interval 10000 \
+    --eval-iters 1000 \
+    --save-interval 1000 \
     --log-timers-to-tensorboard \
     --log-memory-to-tensorboard \
 "

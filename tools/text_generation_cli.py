@@ -5,12 +5,19 @@ import requests
 
 
 if __name__ == "__main__":
-    url = sys.argv[1]
+    url = "127.0.0.1:5000"
     url = 'http://' + url + '/api'
     headers = {'Content-Type': 'application/json'}
 
     while True:
-        sentence = input("Enter prompt: ")
+
+        lines=[input("Enter prompt: ")]
+        while True:
+            try:
+                lines.append(input())
+            except:
+                break 
+        sentence = "\n".join(lines)
         tokens_to_generate = int(eval(input("Enter number of tokens to generate: ")))
 
         data = {"prompts": [sentence], "tokens_to_generate": tokens_to_generate}

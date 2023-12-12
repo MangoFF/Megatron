@@ -8,3 +8,5 @@ slurm*
 logs
 .vscode
 data/CodeData-gpt2_text_document
+output
+tmp
